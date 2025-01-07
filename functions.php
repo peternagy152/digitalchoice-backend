@@ -342,38 +342,53 @@ function get_page_data_by_slug($request)
 }
 
 
-
-
-
-function register_faqs_list()
-{
-	register_rest_route('custom/v1', '/faqs', array(
-		'methods'  => 'GET',
-		'callback' => 'get_faqs',
-		'permission_callback' => '__return_true', // Adjust permissions if needed
-	));
-}
-
-add_action('rest_api_init', 'register_faqs_list');
-
-function get_faqs(){
-
-	$args = array(
-		'post_type'      => 'faqs',
-		'posts_per_page' => -1,
-		'post_status'    => 'publish',
+// Register the FAQs REST API route
+function register_faqs_list() {
+	register_rest_route(
+	    'custom/v1', 
+	    '/faqs', 
+	    array(
+		   'methods'             => 'GET',
+		   'callback'            => 'get_faqs',
+		   'permission_callback' => '__return_true', // Adjust permissions if needed
+	    )
 	);
-
-	$faqs = get_posts($args) ; 
-	$modified_faqs = [] ; 
-	foreach ($faqs as $faq){
-		$modified_faqs [] = [
-			'question' => $faq->post_title ,
-		] ; 
-
+ }
+ add_action( 'rest_api_init', 'register_faqs_list' );
+ 
+ // Callback function to fetch FAQs
+ function get_faqs() {
+	// Query arguments for FAQs
+	$args = array(
+	    'post_type'      => 'faq',
+	    'posts_per_page' => -1,
+	    'post_status'    => 'publish',
+	);
+ 
+	// Fetch the posts
+	$faqs = get_posts( $args );
+ 
+	// Initialize an array to store formatted FAQs
+	$modified_faqs = array();
+ 
+	// Check if there are any FAQ posts
+	if ( ! empty( $faqs ) ) {
+	    foreach ( $faqs as $faq ) {
+		   $modified_faqs[] = array(
+			  'question' => sanitize_text_field( $faq->post_title ), // Sanitize title
+			  'answer'   => wp_kses_post( $faq->post_content ),      // Sanitize content
+		   );
+	    }
+	} else {
+	    return rest_ensure_response(
+		   array(
+			  'message' => 'No FAQs found.',
+			  'status'  => 404,
+		   )
+	    );
 	}
-	return $modified_faqs;
-
-
-}
-
+ 
+	// Return the modified FAQs as the response
+	return rest_ensure_response( $modified_faqs );
+ }
+ 
