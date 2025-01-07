@@ -32,7 +32,7 @@ add_action('rest_api_init', 'register_service_list');
 function register_faqs_list()
 {
 	register_rest_route(
-		'api/v1',
+		'custom/v1',
 		'/faqs',
 		array(
 			'methods'             => 'GET',
