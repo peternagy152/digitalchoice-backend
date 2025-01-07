@@ -14,10 +14,28 @@ function register_custom_page_api()
 add_action('rest_api_init', 'register_custom_page_api');
 
 
+
+
+function register_project_list()
+{
+	register_rest_route(
+		'api/v1',
+		'/projects',
+		array(
+			'methods'             => 'GET',
+			'callback'            => 'get_projects',
+			'permission_callback' => '__return_true',
+		)
+	);
+}
+add_action('rest_api_init', 'register_project_list');
+
+
+
 function register_service_list()
 {
 	register_rest_route(
-		'custom/v1',
+		'api/v1',
 		'/services',
 		array(
 			'methods'             => 'GET',

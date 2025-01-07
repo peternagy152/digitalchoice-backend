@@ -23,8 +23,6 @@ function get_faqs()
 		'faqs' => $modified_faqs ,  
 	] ; 
 
-	//return $response ; 
-
 	return rest_ensure_response($response);
 
 }

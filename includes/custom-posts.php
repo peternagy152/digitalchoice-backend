@@ -134,7 +134,7 @@ function theme_settings()
 
 	$labels = array(
 		'name' => _x('Theme Settings', 'plural'),
-		'singular_name' => _x('Project', 'singular'),
+		'singular_name' => _x('Theme Settings', 'singular'),
 		'menu_name' => _x('Theme Settings', 'admin menu'),
 		'name_admin_bar' => _x('Theme Settings', 'admin bar'),
 		'add_new' => _x('Add New Theme Settings', 'add new'),
