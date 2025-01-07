@@ -192,6 +192,12 @@ require_once "includes/api/pages.php" ;
 require_once "includes/api/projects.php" ; 
 require_once "includes/api/services.php" ; 
 
+function allow_svg_uploads( $mime_types ) {
+	$mime_types['svg'] = 'image/svg+xml'; // Add SVG support
+	return $mime_types;
+ }
+ add_filter( 'upload_mimes', 'allow_svg_uploads' );
+
 
 
 
