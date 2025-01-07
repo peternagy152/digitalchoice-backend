@@ -323,20 +323,42 @@ add_action('rest_api_init', 'register_custom_page_api');
 function get_page_data_by_slug($request)
 {
 	$slug = $request['slug'];
-	$page = get_page_by_path($slug, OBJECT, 'page'); // Adjust post type if necessary
+	$page = get_page_by_path($slug, OBJECT, 'page');
 
 	if (! $page) {
 		return new WP_Error('no_page', 'Page not found', array('status' => 404));
 	}
 
-	$custom_fields = get_post_meta($page->ID);
+	$custom_fields = get_field('page_data', $page->ID , true) ; 
 	$response = array(
 		'ID'           => $page->ID,
 		'title'        => get_the_title($page->ID),
 		'content'      => apply_filters('the_content', $page->post_content),
 		'excerpt'      => get_the_excerpt($page->ID),
-		'custom_fields' => get_field('page_data', $page->ID , true),
+		'custom_fields' => $custom_fields , 
 	);
 
 	return rest_ensure_response($response);
 }
+
+
+
+
+
+function register_faqs_list()
+{
+	register_rest_route('custom/v1', '/faqs', array(
+		'methods'  => 'GET',
+		'callback' => 'get_faqs',
+		'permission_callback' => '__return_true', // Adjust permissions if needed
+	));
+}
+
+add_action('rest_api_init', 'register_faqs_list');
+
+function get_faqs(){
+	return true;
+
+
+}
+
