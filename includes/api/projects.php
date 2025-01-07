@@ -1,7 +1,7 @@
 <?php 
 function get_projects(){
      $args = array(
-		'post_type'      => 'services',
+		'post_type'      => 'projects',
 		'posts_per_page' => -1,
 		'post_status'    => 'publish',
 	);
@@ -11,17 +11,18 @@ function get_projects(){
 	$modified_posts = [] ; 
 	foreach ($posts as $post) {
 		$modified_posts[] = array(
-			'slug'    => $post->post_name, // Fetching post slug
-			'title'   => sanitize_text_field($post->post_title), // Sanitized title
-			'content' => wp_kses_post($post->post_content), // Sanitized content
-			'image'   => get_the_post_thumbnail_url($post->ID, 'full') ?: '', // Fetching featured image URL
+			'slug'    => $post->post_name, 
+			'title'   => sanitize_text_field($post->post_title), 
+			'content' => wp_kses_post($post->post_content),
+			'image'   => get_the_post_thumbnail_url($post->ID, 'full') ?: '', 
+               'custom_fields' => get_field('page_data', $post->ID, true)
 		);
 	}
 
 	$response = [
 		'status' => 'success' , 
-		'msg' => 'Services fetched' , 
-		'services' => $modified_posts 
+		'msg' => 'Projects fetched' , 
+		'projects' => $modified_posts 
 	]; 
 
 	return rest_ensure_response($response);
