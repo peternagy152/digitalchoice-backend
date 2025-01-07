@@ -126,8 +126,6 @@ function theme_settings()
 
 	$supports = array(
 		'title',
-		'thumbnail',
-		'span',
 		"editor",
 
 	);
@@ -153,7 +151,7 @@ function theme_settings()
 		'public' => true,
 		'query_var' => true,
 		'rewrite' => array('slug' => 'theme-settings'),
-		'menu_icon'          => 'dashicons-editor-paste-word',
+		'menu_icon'          => 'dashicons-admin-generic',
 		'has_archive' => true,
 		'hierarchical' => false,
 	);

@@ -4,7 +4,7 @@
 
 function register_custom_page_api()
 {
-	register_rest_route('custom/v1', '/page/(?P<slug>[a-zA-Z0-9-]+)', array(
+	register_rest_route('api/v1', '/page/(?P<slug>[a-zA-Z0-9-]+)', array(
 		'methods'  => 'GET',
 		'callback' => 'get_page_data_by_slug',
 		'permission_callback' => '__return_true', // Adjust permissions if needed
