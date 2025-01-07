@@ -226,6 +226,49 @@ function services()
 }
 add_action('init', 'services');
 
+function projects()
+{
+
+	$supports = array(
+		'title',
+		'thumbnail',
+		'excerpt',
+		'span',
+		"editor",
+
+	);
+
+	$labels = array(
+		'name' => _x('Projects', 'plural'),
+		'singular_name' => _x('Project', 'singular'),
+		'menu_name' => _x('Projects', 'admin menu'),
+		'name_admin_bar' => _x('Projects', 'admin bar'),
+		'add_new' => _x('Add New Project', 'add new'),
+		'add_new_item' => __('Add New Project'),
+		'new_item' => __('New Project'),
+		'edit_item' => __('Edit Project'),
+		'view_item' => __('View Project'),
+		'all_items' => __('All Projects'),
+		'search_items' => __('Search Projects'),
+		'not_found' => __('No Project found.'),
+	);
+
+	$args = array(
+		'supports' => $supports,
+		'labels' => $labels,
+		'public' => true,
+		'query_var' => true,
+		'rewrite' => array('slug' => 'project'),
+          'menu_icon'          => 'dashicons-editor-paste-word',
+		'has_archive' => true,
+		'hierarchical' => false,
+	);
+	register_post_type('projects', $args);
+}
+add_action('init', 'projects');
+
+
+
 function register_custom_page_api()
 {
 	register_rest_route('custom/v1', '/page/(?P<slug>[a-zA-Z0-9-]+)', array(
