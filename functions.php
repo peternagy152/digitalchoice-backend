@@ -335,7 +335,7 @@ function get_page_data_by_slug($request)
 		'title'        => get_the_title($page->ID),
 		'content'      => apply_filters('the_content', $page->post_content),
 		'excerpt'      => get_the_excerpt($page->ID),
-		'custom_fields' => $custom_fields,
+		'custom_fields' => get_field('page_data', $page->ID , true),
 	);
 
 	return rest_ensure_response($response);
