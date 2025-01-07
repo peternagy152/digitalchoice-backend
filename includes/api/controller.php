@@ -1,7 +1,7 @@
 <?php 
 
 
-$base_url = 'api/v1'
+$base_url = 'api/v1' ; 
 
 function register_custom_page_api()
 {
