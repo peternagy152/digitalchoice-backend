@@ -1,4 +1,5 @@
 <?php
+
 /**
  * digitalchoice-backend functions and definitions
  *
@@ -7,9 +8,9 @@
  * @package digitalchoice-backend
  */
 
-if ( ! defined( '_S_VERSION' ) ) {
+if (! defined('_S_VERSION')) {
 	// Replace the version number of the theme on each release.
-	define( '_S_VERSION', '1.0.0' );
+	define('_S_VERSION', '1.0.0');
 }
 
 /**
@@ -19,17 +20,18 @@ if ( ! defined( '_S_VERSION' ) ) {
  * runs before the init hook. The init hook is too late for some features, such
  * as indicating support for post thumbnails.
  */
-function digitalchoice_backend_setup() {
+function digitalchoice_backend_setup()
+{
 	/*
 		* Make theme available for translation.
 		* Translations can be filed in the /languages/ directory.
 		* If you're building a theme based on digitalchoice-backend, use a find and replace
 		* to change 'digitalchoice-backend' to the name of your theme in all the template files.
 		*/
-	load_theme_textdomain( 'digitalchoice-backend', get_template_directory() . '/languages' );
+	load_theme_textdomain('digitalchoice-backend', get_template_directory() . '/languages');
 
 	// Add default posts and comments RSS feed links to head.
-	add_theme_support( 'automatic-feed-links' );
+	add_theme_support('automatic-feed-links');
 
 	/*
 		* Let WordPress manage the document title.
@@ -37,19 +39,19 @@ function digitalchoice_backend_setup() {
 		* hard-coded <title> tag in the document head, and expect WordPress to
 		* provide it for us.
 		*/
-	add_theme_support( 'title-tag' );
+	add_theme_support('title-tag');
 
 	/*
 		* Enable support for Post Thumbnails on posts and pages.
 		*
 		* @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
 		*/
-	add_theme_support( 'post-thumbnails' );
+	add_theme_support('post-thumbnails');
 
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menus(
 		array(
-			'menu-1' => esc_html__( 'Primary', 'digitalchoice-backend' ),
+			'menu-1' => esc_html__('Primary', 'digitalchoice-backend'),
 		)
 	);
 
@@ -83,7 +85,7 @@ function digitalchoice_backend_setup() {
 	);
 
 	// Add theme support for selective refresh for widgets.
-	add_theme_support( 'customize-selective-refresh-widgets' );
+	add_theme_support('customize-selective-refresh-widgets');
 
 	/**
 	 * Add support for core custom logo.
@@ -100,7 +102,7 @@ function digitalchoice_backend_setup() {
 		)
 	);
 }
-add_action( 'after_setup_theme', 'digitalchoice_backend_setup' );
+add_action('after_setup_theme', 'digitalchoice_backend_setup');
 
 /**
  * Set the content width in pixels, based on the theme's design and stylesheet.
@@ -109,22 +111,24 @@ add_action( 'after_setup_theme', 'digitalchoice_backend_setup' );
  *
  * @global int $content_width
  */
-function digitalchoice_backend_content_width() {
-	$GLOBALS['content_width'] = apply_filters( 'digitalchoice_backend_content_width', 640 );
+function digitalchoice_backend_content_width()
+{
+	$GLOBALS['content_width'] = apply_filters('digitalchoice_backend_content_width', 640);
 }
-add_action( 'after_setup_theme', 'digitalchoice_backend_content_width', 0 );
+add_action('after_setup_theme', 'digitalchoice_backend_content_width', 0);
 
 /**
  * Register widget area.
  *
  * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
  */
-function digitalchoice_backend_widgets_init() {
+function digitalchoice_backend_widgets_init()
+{
 	register_sidebar(
 		array(
-			'name'          => esc_html__( 'Sidebar', 'digitalchoice-backend' ),
+			'name'          => esc_html__('Sidebar', 'digitalchoice-backend'),
 			'id'            => 'sidebar-1',
-			'description'   => esc_html__( 'Add widgets here.', 'digitalchoice-backend' ),
+			'description'   => esc_html__('Add widgets here.', 'digitalchoice-backend'),
 			'before_widget' => '<section id="%1$s" class="widget %2$s">',
 			'after_widget'  => '</section>',
 			'before_title'  => '<h2 class="widget-title">',
@@ -132,22 +136,23 @@ function digitalchoice_backend_widgets_init() {
 		)
 	);
 }
-add_action( 'widgets_init', 'digitalchoice_backend_widgets_init' );
+add_action('widgets_init', 'digitalchoice_backend_widgets_init');
 
 /**
  * Enqueue scripts and styles.
  */
-function digitalchoice_backend_scripts() {
-	wp_enqueue_style( 'digitalchoice-backend-style', get_stylesheet_uri(), array(), _S_VERSION );
-	wp_style_add_data( 'digitalchoice-backend-style', 'rtl', 'replace' );
+function digitalchoice_backend_scripts()
+{
+	wp_enqueue_style('digitalchoice-backend-style', get_stylesheet_uri(), array(), _S_VERSION);
+	wp_style_add_data('digitalchoice-backend-style', 'rtl', 'replace');
 
-	wp_enqueue_script( 'digitalchoice-backend-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
+	wp_enqueue_script('digitalchoice-backend-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true);
 
-	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
-		wp_enqueue_script( 'comment-reply' );
+	if (is_singular() && comments_open() && get_option('thread_comments')) {
+		wp_enqueue_script('comment-reply');
 	}
 }
-add_action( 'wp_enqueue_scripts', 'digitalchoice_backend_scripts' );
+add_action('wp_enqueue_scripts', 'digitalchoice_backend_scripts');
 
 /**
  * Implement the Custom Header feature.
@@ -172,7 +177,40 @@ require get_template_directory() . '/inc/customizer.php';
 /**
  * Load Jetpack compatibility file.
  */
-if ( defined( 'JETPACK__VERSION' ) ) {
+if (defined('JETPACK__VERSION')) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
 
+
+
+function register_custom_page_api()
+{
+	register_rest_route('custom/v1', '/page/(?P<slug>[a-zA-Z0-9-]+)', array(
+		'methods'  => 'GET',
+		'callback' => 'get_page_data_by_slug',
+		'permission_callback' => '__return_true', // Adjust permissions if needed
+	));
+}
+
+add_action('rest_api_init', 'register_custom_page_api');
+
+function get_page_data_by_slug($request)
+{
+	$slug = $request['slug'];
+	$page = get_page_by_path($slug, OBJECT, 'page'); // Adjust post type if necessary
+
+	if (! $page) {
+		return new WP_Error('no_page', 'Page not found', array('status' => 404));
+	}
+
+	$custom_fields = get_post_meta($page->ID);
+	$response = array(
+		'ID'           => $page->ID,
+		'title'        => get_the_title($page->ID),
+		'content'      => apply_filters('the_content', $page->post_content),
+		'excerpt'      => get_the_excerpt($page->ID),
+		'custom_fields' => $custom_fields,
+	);
+
+	return rest_ensure_response($response);
+}
