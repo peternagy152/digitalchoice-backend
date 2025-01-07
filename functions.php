@@ -357,7 +357,22 @@ function register_faqs_list()
 add_action('rest_api_init', 'register_faqs_list');
 
 function get_faqs(){
-	return true;
+
+	$args = array(
+		'post_type'      => 'faqs',
+		'posts_per_page' => -1,
+		'post_status'    => 'publish',
+	);
+
+	$faqs = get_posts($args) ; 
+	$modified_faqs = [] ; 
+	foreach ($faqs as $faq){
+		$modified_faqs [] = [
+			'question' => $faq->post_title ,
+		] ; 
+
+	}
+	return $modified_faqs;
 
 
 }
