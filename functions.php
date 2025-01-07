@@ -216,7 +216,7 @@ function services()
 		'public' => true,
 		'query_var' => true,
 		'rewrite' => array('slug' => 'services'),
-          'menu_icon'          => 'dashicons-yes',
+		'menu_icon'          => 'dashicons-yes',
 		'has_archive' => true,
 		'hierarchical' => false,
 	);
@@ -256,7 +256,7 @@ function projects()
 		'public' => true,
 		'query_var' => true,
 		'rewrite' => array('slug' => 'project'),
-          'menu_icon'          => 'dashicons-editor-paste-word',
+		'menu_icon'          => 'dashicons-editor-paste-word',
 		'has_archive' => true,
 		'hierarchical' => false,
 	);
@@ -297,7 +297,7 @@ function Faqs()
 		'public' => true,
 		'query_var' => true,
 		'rewrite' => array('slug' => 'faq'),
-          'menu_icon'          => 'dashicons-editor-help',
+		'menu_icon'          => 'dashicons-editor-help',
 		'has_archive' => true,
 		'hierarchical' => false,
 	);
@@ -329,66 +329,101 @@ function get_page_data_by_slug($request)
 		return new WP_Error('no_page', 'Page not found', array('status' => 404));
 	}
 
-	$custom_fields = get_field('page_data', $page->ID , true) ; 
+	$custom_fields = get_field('page_data', $page->ID, true);
 	$response = array(
 		'ID'           => $page->ID,
 		'title'        => get_the_title($page->ID),
 		'content'      => apply_filters('the_content', $page->post_content),
 		'excerpt'      => get_the_excerpt($page->ID),
-		'custom_fields' => $custom_fields , 
+		'custom_fields' => $custom_fields,
 	);
 
 	return rest_ensure_response($response);
 }
 
 
-// Register the FAQs REST API route
-function register_faqs_list() {
+function register_faqs_list()
+{
 	register_rest_route(
-	    'custom/v1', 
-	    '/faqs', 
-	    array(
-		   'methods'             => 'GET',
-		   'callback'            => 'get_faqs',
-		   'permission_callback' => '__return_true', // Adjust permissions if needed
-	    )
+		'custom/v1',
+		'/faqs',
+		array(
+			'methods'             => 'GET',
+			'callback'            => 'get_faqs',
+			'permission_callback' => '__return_true',
+		)
 	);
- }
- add_action( 'rest_api_init', 'register_faqs_list' );
- 
- // Callback function to fetch FAQs
- function get_faqs() {
-	// Query arguments for FAQs
+}
+add_action('rest_api_init', 'register_faqs_list');
+
+function get_faqs()
+{
 	$args = array(
-	    'post_type'      => 'faq',
-	    'posts_per_page' => -1,
-	    'post_status'    => 'publish',
+		'post_type'      => 'faq',
+		'posts_per_page' => -1,
+		'post_status'    => 'publish',
 	);
- 
-	// Fetch the posts
-	$faqs = get_posts( $args );
- 
-	// Initialize an array to store formatted FAQs
+	$faqs = get_posts($args);
 	$modified_faqs = array();
- 
-	// Check if there are any FAQ posts
-	if ( ! empty( $faqs ) ) {
-	    foreach ( $faqs as $faq ) {
-		   $modified_faqs[] = array(
-			  'question' => sanitize_text_field( $faq->post_title ), // Sanitize title
-			  'answer'   => wp_kses_post( $faq->post_content ),      // Sanitize content
-		   );
-	    }
+	if (! empty($faqs)) {
+		foreach ($faqs as $faq) {
+			$modified_faqs[] = array(
+				'question' => sanitize_text_field($faq->post_title),
+				'answer'   => wp_kses_post($faq->post_content),
+			);
+		}
 	} else {
-	    return rest_ensure_response(
-		   array(
-			  'message' => 'No FAQs found.',
-			  'status'  => 404,
-		   )
-	    );
+		return rest_ensure_response(
+			array(
+				'message' => 'No FAQs found.',
+				'status'  => 404,
+			)
+		);
 	}
- 
-	// Return the modified FAQs as the response
-	return rest_ensure_response( $modified_faqs );
- }
- 
+	return rest_ensure_response($modified_faqs);
+}
+
+
+
+function register_service_list()
+{
+	register_rest_route(
+		'custom/v1',
+		'/services',
+		array(
+			'methods'             => 'GET',
+			'callback'            => 'get_services',
+			'permission_callback' => '__return_true',
+		)
+	);
+}
+add_action('rest_api_init', 'register_service_list');
+
+function get_services()
+{
+	$args = array(
+		'post_type'      => 'services',
+		'posts_per_page' => -1,
+		'post_status'    => 'publish',
+	);
+	$posts = get_posts($args);
+	$modified_posts = array();
+	if (! empty($posts)) {
+		foreach ($posts as $post) {
+			$modified_posts[] = array(
+				'slug'    => $post->post_name, // Fetching post slug
+				'title'   => sanitize_text_field($post->post_title), // Sanitized title
+				'content' => wp_kses_post($post->post_content), // Sanitized content
+				'image'   => get_the_post_thumbnail_url($post->ID, 'full') ?: '', // Fetching featured image URL
+			);
+		}
+	} else {
+		return rest_ensure_response(
+			array(
+				'message' => 'No Services found.',
+				'status'  => 404,
+			)
+		);
+	}
+	return rest_ensure_response($modified_posts);
+}
