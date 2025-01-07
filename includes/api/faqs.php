@@ -22,8 +22,9 @@ function get_faqs()
 		'msg' => 'FAQs Fetched' , 
 		'faqs' => $modified_faqs ,  
 	] ; 
+
 	//return $response ; 
 
-	return ( new WP_REST_Response( $response ) )->set_status( 200 );
+	return rest_ensure_response($response);
 
 }
