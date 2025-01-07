@@ -183,6 +183,49 @@ if (defined('JETPACK__VERSION')) {
 
 
 
+//Custom Posts 
+
+function services()
+{
+
+	$supports = array(
+		'title', // post title
+		'thumbnail', // featured images
+		'excerpt', // post excerpt
+		'span', // post span
+		"editor",
+
+	);
+
+	$labels = array(
+		'name' => _x('Services', 'plural'),
+		'singular_name' => _x('Service', 'singular'),
+		'menu_name' => _x('Services', 'admin menu'),
+		'name_admin_bar' => _x('Services', 'admin bar'),
+		'add_new' => _x('Add New Service', 'add new'),
+		'add_new_item' => __('Add New Service'),
+		'new_item' => __('New Service'),
+		'edit_item' => __('Edit Service'),
+		'view_item' => __('View Service'),
+		'all_items' => __('All Services'),
+		'search_items' => __('Search Services'),
+		'not_found' => __('No Service found.'),
+	);
+
+	$args = array(
+		'supports' => $supports,
+		'labels' => $labels,
+		'public' => true,
+		'query_var' => true,
+		'rewrite' => array('slug' => 'services'),
+          'menu_icon'          => 'dashicons-yes',
+		'has_archive' => true,
+		'hierarchical' => false,
+	);
+	register_post_type('services', $args);
+}
+add_action('init', 'services');
+
 function register_custom_page_api()
 {
 	register_rest_route('custom/v1', '/page/(?P<slug>[a-zA-Z0-9-]+)', array(
