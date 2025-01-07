@@ -191,10 +191,8 @@ function services()
 	$supports = array(
 		'title', // post title
 		'thumbnail', // featured images
-		'excerpt', // post excerpt
 		'span', // post span
 		"editor",
-
 	);
 
 	$labels = array(
@@ -232,7 +230,6 @@ function projects()
 	$supports = array(
 		'title',
 		'thumbnail',
-		'excerpt',
 		'span',
 		"editor",
 
@@ -266,6 +263,49 @@ function projects()
 	register_post_type('projects', $args);
 }
 add_action('init', 'projects');
+
+
+function Faqs()
+{
+
+	$supports = array(
+		'title', // post title
+		'thumbnail', // featured images
+		'span', // post span
+		"editor",
+
+	);
+
+	$labels = array(
+		'name' => _x('Faqs', 'plural'),
+		'singular_name' => _x('Faq', 'singular'),
+		'menu_name' => _x('Faqs', 'admin menu'),
+		'name_admin_bar' => _x('Faqs', 'admin bar'),
+		'add_new' => _x('Add New ', 'add new'),
+		'add_new_item' => __('Add New Faq'),
+		'new_item' => __('New Faq'),
+		'edit_item' => __('Edit Faq'),
+		'view_item' => __('View Faq'),
+		'all_items' => __('All Faqs'),
+		'search_items' => __('Search Faq'),
+		'not_found' => __('No Faq found.'),
+	);
+
+	$args = array(
+		'supports' => $supports,
+		'labels' => $labels,
+		'public' => true,
+		'query_var' => true,
+		'rewrite' => array('slug' => 'faq'),
+          'menu_icon'          => 'dashicons-editor-help',
+		'has_archive' => true,
+		'hierarchical' => false,
+	);
+	register_post_type('faq', $args);
+}
+add_action('init', 'Faqs');
+
+
 
 
 
