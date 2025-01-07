@@ -1,7 +1,6 @@
 <?php 
 
 
-$base_url = 'api/v1' ; 
 
 function register_custom_page_api()
 {
@@ -33,7 +32,7 @@ add_action('rest_api_init', 'register_service_list');
 function register_faqs_list()
 {
 	register_rest_route(
-		$base_url,
+		'api/v1',
 		'/faqs',
 		array(
 			'methods'             => 'GET',
